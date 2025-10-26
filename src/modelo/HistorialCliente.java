@@ -64,4 +64,15 @@ public class HistorialCliente {
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
+
+    @Override
+    public String toString() {
+        return "HistorialCliente{"
+                + "idHistorial=" + idHistorial
+                + ", idCliente=" + idCliente
+                + ", idAlquiler=" + idAlquiler
+                + ", valoracion=" + valoracion
+                + ", fechaRegistro=" + fechaRegistro
+                + '}';
+    }
 }

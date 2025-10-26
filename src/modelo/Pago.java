@@ -86,4 +86,17 @@ public class Pago {
     public void setIdTrabajador(int idTrabajador) {
         this.idTrabajador = idTrabajador;
     }
+
+    @Override
+    public String toString() {
+        return "Pago{"
+                + "idPago=" + idPago
+                + ", idFactura=" + idFactura
+                + ", montoPago=" + montoPago
+                + ", metodoPago='" + metodoPago + '\''
+                + ", fechaPago=" + fechaPago
+                + ", numeroTransaccion='" + numeroTransaccion + '\''
+                + ", idTrabajador=" + idTrabajador
+                + '}';
+    }
 }

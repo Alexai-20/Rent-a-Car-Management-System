@@ -80,4 +80,16 @@ public class Cliente extends Usuario {
         return String.format("Cliente %s %s (%s)", getNombre(), getApellido(),
                 getTipoCliente());
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{"
+                + "idCliente=" + idCliente
+                + ", numeroLicencia='" + numeroLicencia + '\''
+                + ", fechaVencimientoLicencia=" + fechaVencimientoLicencia
+                + ", tipoCliente='" + tipoCliente + '\''
+                + ", empresa='" + empresa + '\''
+                + ", datosUsuario=" + super.toString()
+                + '}';
+    }
 }

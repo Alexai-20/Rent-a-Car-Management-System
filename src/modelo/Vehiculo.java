@@ -18,7 +18,7 @@ public class Vehiculo {
     private String tipoVehiculo;
     private BigDecimal tarifaDiaria;
     private String estadoMantenimiento;
-    private String disponibilidad;
+    private boolean disponibilidad;
     private LocalDate fechaRegistro;
     private LocalDate fechaUltimaRevision;
 
@@ -28,7 +28,7 @@ public class Vehiculo {
     public Vehiculo(String patente, int idModelo, LocalDate anio,
             String tipoCombustible, int kilometraje, String color,
             int numeroAsientos, String tipoVehiculo, BigDecimal tarifaDiaria,
-            String estadoMantenimiento, String disponibilidad,
+            String estadoMantenimiento, boolean disponibilidad,
             LocalDate fechaRegistro, LocalDate fechaUltimaRevision) {
         this.patente = patente;
         this.idModelo = idModelo;
@@ -125,11 +125,11 @@ public class Vehiculo {
         this.estadoMantenimiento = estadoMantenimiento;
     }
 
-    public String getDisponibilidad() {
+    public boolean isDisponibilidad() {
         return disponibilidad;
     }
 
-    public void setDisponibilidad(String disponibilidad) {
+    public void setDisponibilidad(boolean disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
 
@@ -147,5 +147,24 @@ public class Vehiculo {
 
     public void setFechaUltimaRevision(LocalDate fechaUltimaRevision) {
         this.fechaUltimaRevision = fechaUltimaRevision;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehiculo{"
+                + "patente='" + patente + '\''
+                + ", idModelo=" + idModelo
+                + ", anio=" + anio
+                + ", tipoCombustible='" + tipoCombustible + '\''
+                + ", kilometraje=" + kilometraje
+                + ", color='" + color + '\''
+                + ", numeroAsientos=" + numeroAsientos
+                + ", tipoVehiculo='" + tipoVehiculo + '\''
+                + ", tarifaDiaria=" + tarifaDiaria
+                + ", estadoMantenimiento='" + estadoMantenimiento + '\''
+                + ", disponibilidad=" + disponibilidad
+                + ", fechaRegistro=" + fechaRegistro
+                + ", fechaUltimaRevision=" + fechaUltimaRevision
+                + '}';
     }
 }

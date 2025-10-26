@@ -41,4 +41,13 @@ public class Marca {
     public void setPaisOrigen(String paisOrigen) {
         this.paisOrigen = paisOrigen;
     }
+
+    @Override
+    public String toString() {
+        return "Marca{"
+                + "idMarca=" + idMarca
+                + ", nombreMarca='" + nombreMarca + '\''
+                + ", paisOrigen='" + paisOrigen + '\''
+                + '}';
+    }
 }

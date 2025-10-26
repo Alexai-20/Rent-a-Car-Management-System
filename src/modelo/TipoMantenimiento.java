@@ -53,4 +53,14 @@ public class TipoMantenimiento {
     public void setKilometrajeRecomendado(int kilometrajeRecomendado) {
         this.kilometrajeRecomendado = kilometrajeRecomendado;
     }
+
+    @Override
+    public String toString() {
+        return "TipoMantenimiento{"
+                + "idMantenimiento=" + idMantenimiento
+                + ", nombre='" + nombre + '\''
+                + ", descripcion='" + descripcion + '\''
+                + ", kilometrajeRecomendado=" + kilometrajeRecomendado
+                + '}';
+    }
 }

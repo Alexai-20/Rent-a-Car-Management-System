@@ -51,4 +51,14 @@ public class Rol {
     public void setPermisos(String permisos) {
         this.permisos = permisos;
     }
+
+    @Override
+    public String toString() {
+        return "Rol{"
+                + "idRol=" + idRol
+                + ", nombreRol='" + nombreRol + '\''
+                + ", descripcion='" + descripcion + '\''
+                + ", permisos='" + permisos + '\''
+                + '}';
+    }
 }

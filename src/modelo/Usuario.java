@@ -144,4 +144,22 @@ public abstract class Usuario {
      * específico de cada subclase.
      */
     public abstract String resumenPerfil();
+
+    @Override
+    public String toString() {
+        return "Usuario{"
+                + "idUsuario=" + idUsuario
+                + ", nombre='" + nombre + '\''
+                + ", apellido='" + apellido + '\''
+                + ", rut='" + rut + '\''
+                + ", email='" + email + '\''
+                + ", telefono='" + telefono + '\''
+                + ", direccion='" + direccion + '\''
+                + ", fechaNacimiento=" + fechaNacimiento
+                + ", tipoUsuario='" + tipoUsuario + '\''
+                + ", estado='" + estado + '\''
+                + ", fechaRegistro=" + fechaRegistro
+                + ", fechaUltimaModificacion=" + fechaUltimaModificacion
+                + '}';
+    }
 }

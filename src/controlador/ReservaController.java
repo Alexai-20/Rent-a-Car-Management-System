@@ -25,21 +25,31 @@ public class ReservaController {
     public boolean crearReserva(Reserva reserva) {
         String sql = "INSERT INTO RESERVAS(id_cliente, patente, fecha_reserva, fecha_inicio, fecha_fin, estado_reserva, monto_estimado, id_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = conexion.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reserva.getIdCliente());
-            ps.setString(2, reserva.getPatente());
-            ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
-            ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
-            ps.setDate(5, toSqlDate(reserva.getFechaFin()));
-            ps.setString(6, reserva.getEstadoReserva());
-            ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
-            ps.setInt(8, reserva.getIdTrabajador());
-            ps.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = conexion.conectar();
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, reserva.getIdCliente());
+                ps.setString(2, reserva.getPatente());
+                ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
+                ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
+                ps.setDate(5, toSqlDate(reserva.getFechaFin()));
+                ps.setString(6, reserva.getEstadoReserva());
+                ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
+                ps.setInt(8, reserva.getIdTrabajador());
+                ps.executeUpdate();
+            }
+
+            conn.commit();
             return true;
         } catch (SQLException ex) {
+            rollbackQuietly(conn);
             ex.printStackTrace();
             return false;
+        } finally {
+            closeQuietly(conn);
         }
     }
 
@@ -74,36 +84,56 @@ public class ReservaController {
     public boolean actualizarReserva(Reserva reserva) {
         String sql = "UPDATE RESERVAS SET id_cliente = ?, patente = ?, fecha_reserva = ?, fecha_inicio = ?, fecha_fin = ?, estado_reserva = ?, monto_estimado = ?, id_trabajador = ? WHERE id_reserva = ?";
 
-        try (Connection conn = conexion.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reserva.getIdCliente());
-            ps.setString(2, reserva.getPatente());
-            ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
-            ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
-            ps.setDate(5, toSqlDate(reserva.getFechaFin()));
-            ps.setString(6, reserva.getEstadoReserva());
-            ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
-            ps.setInt(8, reserva.getIdTrabajador());
-            ps.setInt(9, reserva.getIdReserva());
-            ps.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = conexion.conectar();
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, reserva.getIdCliente());
+                ps.setString(2, reserva.getPatente());
+                ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
+                ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
+                ps.setDate(5, toSqlDate(reserva.getFechaFin()));
+                ps.setString(6, reserva.getEstadoReserva());
+                ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
+                ps.setInt(8, reserva.getIdTrabajador());
+                ps.setInt(9, reserva.getIdReserva());
+                ps.executeUpdate();
+            }
+
+            conn.commit();
             return true;
         } catch (SQLException ex) {
+            rollbackQuietly(conn);
             ex.printStackTrace();
             return false;
+        } finally {
+            closeQuietly(conn);
         }
     }
 
     public boolean eliminarReserva(int idReserva) {
         String sql = "DELETE FROM RESERVAS WHERE id_reserva = ?";
 
-        try (Connection conn = conexion.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idReserva);
-            ps.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = conexion.conectar();
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, idReserva);
+                ps.executeUpdate();
+            }
+
+            conn.commit();
             return true;
         } catch (SQLException ex) {
+            rollbackQuietly(conn);
             ex.printStackTrace();
             return false;
+        } finally {
+            closeQuietly(conn);
         }
     }
 
@@ -117,5 +147,26 @@ public class ReservaController {
 
     private BigDecimal safeBigDecimal(BigDecimal value) {
         return value != null ? value : BigDecimal.ZERO;
+    }
+
+    private void rollbackQuietly(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void closeQuietly(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.setAutoCommit(true);
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

@@ -148,4 +148,23 @@ public class Alquiler {
     public void setIdTrabajadorDevolucion(int idTrabajadorDevolucion) {
         this.idTrabajadorDevolucion = idTrabajadorDevolucion;
     }
+
+    @Override
+    public String toString() {
+        return "Alquiler{"
+                + "idAlquiler=" + idAlquiler
+                + ", idReserva=" + idReserva
+                + ", fechaInicio=" + fechaInicio
+                + ", fechaFinProgramada=" + fechaFinProgramada
+                + ", fechaFinReal=" + fechaFinReal
+                + ", kilometrajeInicial=" + kilometrajeInicial
+                + ", kilometrajeFinal=" + kilometrajeFinal
+                + ", estadoAlquiler='" + estadoAlquiler + '\''
+                + ", montoTotal=" + montoTotal
+                + ", diasRetraso=" + diasRetraso
+                + ", cargoRetraso=" + cargoRetraso
+                + ", idTrabajadorEntrega=" + idTrabajadorEntrega
+                + ", idTrabajadorDevolucion=" + idTrabajadorDevolucion
+                + '}';
+    }
 }

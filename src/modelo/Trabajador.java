@@ -79,4 +79,16 @@ public class Trabajador extends Usuario {
         return String.format("Trabajador %s %s - %s", getNombre(),
                 getApellido(), cargo);
     }
+
+    @Override
+    public String toString() {
+        return "Trabajador{"
+                + "idTrabajador=" + idTrabajador
+                + ", cargo='" + cargo + '\''
+                + ", departamento='" + departamento + '\''
+                + ", fechaContratacion=" + fechaContratacion
+                + ", salario=" + salario
+                + ", datosUsuario=" + super.toString()
+                + '}';
+    }
 }

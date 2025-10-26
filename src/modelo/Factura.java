@@ -106,4 +106,19 @@ public class Factura {
     public void setFechaVencimiento(LocalDate fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
+
+    @Override
+    public String toString() {
+        return "Factura{"
+                + "idFactura=" + idFactura
+                + ", idAlquiler=" + idAlquiler
+                + ", numeroFactura='" + numeroFactura + '\''
+                + ", fechaEmision=" + fechaEmision
+                + ", subtotal=" + subtotal
+                + ", impuestos=" + impuestos
+                + ", montoTotal=" + montoTotal
+                + ", estadoPago='" + estadoPago + '\''
+                + ", fechaVencimiento=" + fechaVencimiento
+                + '}';
+    }
 }

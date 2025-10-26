@@ -106,4 +106,19 @@ public class Reserva {
     public void setIdTrabajador(int idTrabajador) {
         this.idTrabajador = idTrabajador;
     }
+
+    @Override
+    public String toString() {
+        return "Reserva{"
+                + "idReserva=" + idReserva
+                + ", idCliente=" + idCliente
+                + ", patente='" + patente + '\''
+                + ", fechaReserva=" + fechaReserva
+                + ", fechaInicio=" + fechaInicio
+                + ", fechaFin=" + fechaFin
+                + ", estadoReserva='" + estadoReserva + '\''
+                + ", montoEstimado=" + montoEstimado
+                + ", idTrabajador=" + idTrabajador
+                + '}';
+    }
 }

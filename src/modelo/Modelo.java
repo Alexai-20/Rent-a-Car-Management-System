@@ -41,4 +41,13 @@ public class Modelo {
     public void setNombreModelo(String nombreModelo) {
         this.nombreModelo = nombreModelo;
     }
+
+    @Override
+    public String toString() {
+        return "Modelo{"
+                + "idModelo=" + idModelo
+                + ", idMarca=" + idMarca
+                + ", nombreModelo='" + nombreModelo + '\''
+                + '}';
+    }
 }

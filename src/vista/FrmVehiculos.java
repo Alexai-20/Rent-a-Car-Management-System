@@ -11,6 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,7 +43,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
     private final JTextField txtTipoVehiculo = new JTextField();
     private final JTextField txtTarifaDiaria = new JTextField();
     private final JTextField txtEstadoMantenimiento = new JTextField();
-    private final JTextField txtDisponibilidad = new JTextField();
+    private final JCheckBox chkDisponibilidad = new JCheckBox("Disponible");
     private final JTextField txtFechaRegistro = new JTextField();
     private final JTextField txtFechaUltimaRevision = new JTextField();
 
@@ -101,7 +102,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
         panelFormulario.add(txtEstadoMantenimiento);
 
         panelFormulario.add(new JLabel("Disponibilidad:"));
-        panelFormulario.add(txtDisponibilidad);
+        panelFormulario.add(chkDisponibilidad);
 
         panelFormulario.add(new JLabel("Fecha registro (yyyy-MM-dd):"));
         panelFormulario.add(txtFechaRegistro);
@@ -148,7 +149,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
                 v.getPatente(),
                 v.getIdModelo(),
                 v.getTipoVehiculo(),
-                v.getDisponibilidad(),
+                v.isDisponibilidad() ? "Disponible" : "No disponible",
                 v.getTarifaDiaria(),
                 v.getEstadoMantenimiento()
             });
@@ -169,7 +170,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
             txtTipoVehiculo.setText(vehiculo.getTipoVehiculo());
             txtTarifaDiaria.setText(vehiculo.getTarifaDiaria() != null ? vehiculo.getTarifaDiaria().toPlainString() : "");
             txtEstadoMantenimiento.setText(vehiculo.getEstadoMantenimiento());
-            txtDisponibilidad.setText(vehiculo.getDisponibilidad());
+            chkDisponibilidad.setSelected(vehiculo.isDisponibilidad());
             txtFechaRegistro.setText(formatDate(vehiculo.getFechaRegistro()));
             txtFechaUltimaRevision.setText(formatDate(vehiculo.getFechaUltimaRevision()));
         }
@@ -264,7 +265,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
             vehiculo.setTipoVehiculo(txtTipoVehiculo.getText().trim());
             vehiculo.setTarifaDiaria(parseBigDecimal(txtTarifaDiaria.getText().trim(), "tarifa diaria"));
             vehiculo.setEstadoMantenimiento(txtEstadoMantenimiento.getText().trim());
-            vehiculo.setDisponibilidad(txtDisponibilidad.getText().trim());
+            vehiculo.setDisponibilidad(chkDisponibilidad.isSelected());
             vehiculo.setFechaRegistro(parseFecha(txtFechaRegistro.getText().trim(), "fecha de registro"));
             vehiculo.setFechaUltimaRevision(parseFecha(txtFechaUltimaRevision.getText().trim(), "última revisión"));
         } catch (IllegalArgumentException ex) {
@@ -326,7 +327,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
         txtTipoVehiculo.setText("");
         txtTarifaDiaria.setText("");
         txtEstadoMantenimiento.setText("");
-        txtDisponibilidad.setText("");
+        chkDisponibilidad.setSelected(false);
         txtFechaRegistro.setText("");
         txtFechaUltimaRevision.setText("");
         tblVehiculos.clearSelection();

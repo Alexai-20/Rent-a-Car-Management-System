@@ -108,4 +108,19 @@ public class MantenimientoVehiculo {
     public void setIdTrabajador(int idTrabajador) {
         this.idTrabajador = idTrabajador;
     }
+
+    @Override
+    public String toString() {
+        return "MantenimientoVehiculo{"
+                + "idMantenimiento=" + idMantenimiento
+                + ", patente='" + patente + '\''
+                + ", idTipoMantenimiento=" + idTipoMantenimiento
+                + ", costo=" + costo
+                + ", fechaMantenimiento=" + fechaMantenimiento
+                + ", kilometrajeMantenimiento=" + kilometrajeMantenimiento
+                + ", proximoMantenimientoKm=" + proximoMantenimientoKm
+                + ", proximoMantenimientoFecha=" + proximoMantenimientoFecha
+                + ", idTrabajador=" + idTrabajador
+                + '}';
+    }
 }
