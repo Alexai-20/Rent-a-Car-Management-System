@@ -1,20 +1,20 @@
 package modelo;
 
 /**
- * Catálogo de marcas registradas para los vehículos.
+ * Representa a la tabla MARCAS.
  */
 public class Marca {
 
     private int idMarca;
-    private String nombre;
+    private String nombreMarca;
     private String paisOrigen;
 
     public Marca() {
     }
 
-    public Marca(int idMarca, String nombre, String paisOrigen) {
+    public Marca(int idMarca, String nombreMarca, String paisOrigen) {
         this.idMarca = idMarca;
-        this.nombre = nombre;
+        this.nombreMarca = nombreMarca;
         this.paisOrigen = paisOrigen;
     }
 
@@ -26,12 +26,12 @@ public class Marca {
         this.idMarca = idMarca;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreMarca() {
+        return nombreMarca;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreMarca(String nombreMarca) {
+        this.nombreMarca = nombreMarca;
     }
 
     public String getPaisOrigen() {

@@ -5,7 +5,10 @@ import controlador.ReservaController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,21 +30,24 @@ public class FrmReservas extends javax.swing.JFrame {
 
     private final ReservaController controller;
     private final DefaultTableModel modeloTabla;
+    private final List<Reserva> reservasActuales = new ArrayList<>();
 
     private final JTextField txtIdReserva = new JTextField();
-    private final JTextField txtClienteId = new JTextField();
-    private final JTextField txtVehiculoId = new JTextField();
+    private final JTextField txtIdCliente = new JTextField();
+    private final JTextField txtPatente = new JTextField();
     private final JTextField txtFechaReserva = new JTextField();
     private final JTextField txtFechaInicio = new JTextField();
     private final JTextField txtFechaFin = new JTextField();
-    private final JTextField txtEstado = new JTextField();
+    private final JTextField txtEstadoReserva = new JTextField();
+    private final JTextField txtMontoEstimado = new JTextField();
+    private final JTextField txtIdTrabajador = new JTextField();
 
     private final JTable tblReservas = new JTable();
 
     public FrmReservas(Conexion conexion) {
         this.controller = new ReservaController(conexion);
         this.modeloTabla = new DefaultTableModel(
-                new Object[]{"ID", "Cliente", "Vehículo", "Reserva", "Inicio", "Fin", "Estado"}, 0
+                new Object[]{"ID", "Cliente", "Patente", "Inicio", "Fin", "Estado", "Monto", "Trabajador"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -54,38 +60,45 @@ public class FrmReservas extends javax.swing.JFrame {
 
     private void initComponents() {
         setTitle("Gestión de Reservas");
-        setSize(900, 550);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        JPanel panelFormulario = new JPanel(new GridLayout(0, 2, 10, 10));
-        panelFormulario.add(new JLabel("ID Reserva:"));
+        JPanel panelFormulario = new JPanel(new GridLayout(0, 2, 10, 8));
         txtIdReserva.setEditable(false);
+
+        panelFormulario.add(new JLabel("ID Reserva:"));
         panelFormulario.add(txtIdReserva);
 
         panelFormulario.add(new JLabel("ID Cliente:"));
-        panelFormulario.add(txtClienteId);
+        panelFormulario.add(txtIdCliente);
 
-        panelFormulario.add(new JLabel("ID Vehículo:"));
-        panelFormulario.add(txtVehiculoId);
+        panelFormulario.add(new JLabel("Patente vehículo:"));
+        panelFormulario.add(txtPatente);
 
-        panelFormulario.add(new JLabel("Fecha Reserva (YYYY-MM-DD):"));
+        panelFormulario.add(new JLabel("Fecha reserva (yyyy-MM-dd):"));
         panelFormulario.add(txtFechaReserva);
 
-        panelFormulario.add(new JLabel("Fecha Inicio (YYYY-MM-DD):"));
+        panelFormulario.add(new JLabel("Fecha inicio (yyyy-MM-dd):"));
         panelFormulario.add(txtFechaInicio);
 
-        panelFormulario.add(new JLabel("Fecha Fin (YYYY-MM-DD):"));
+        panelFormulario.add(new JLabel("Fecha fin (yyyy-MM-dd):"));
         panelFormulario.add(txtFechaFin);
 
-        panelFormulario.add(new JLabel("Estado:"));
-        panelFormulario.add(txtEstado);
+        panelFormulario.add(new JLabel("Estado reserva:"));
+        panelFormulario.add(txtEstadoReserva);
+
+        panelFormulario.add(new JLabel("Monto estimado:"));
+        panelFormulario.add(txtMontoEstimado);
+
+        panelFormulario.add(new JLabel("ID Trabajador:"));
+        panelFormulario.add(txtIdTrabajador);
 
         add(panelFormulario, BorderLayout.NORTH);
 
         tblReservas.setModel(modeloTabla);
-        tblReservas.setPreferredScrollableViewportSize(new Dimension(600, 250));
+        tblReservas.setPreferredScrollableViewportSize(new Dimension(800, 260));
         tblReservas.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 cargarReservaSeleccionada();
@@ -113,53 +126,51 @@ public class FrmReservas extends javax.swing.JFrame {
     }
 
     private void cargarReservas() {
+        reservasActuales.clear();
+        reservasActuales.addAll(controller.obtenerReservas());
         modeloTabla.setRowCount(0);
-        List<Reserva> reservas = controller.obtenerReservas();
-        for (Reserva r : reservas) {
+        for (Reserva r : reservasActuales) {
             modeloTabla.addRow(new Object[]{
                 r.getIdReserva(),
-                r.getClienteId(),
-                r.getVehiculoId(),
-                r.getFechaReserva(),
-                r.getFechaInicio(),
-                r.getFechaFin(),
-                r.getEstado()
+                r.getIdCliente(),
+                r.getPatente(),
+                formatDate(r.getFechaInicio()),
+                formatDate(r.getFechaFin()),
+                r.getEstadoReserva(),
+                r.getMontoEstimado(),
+                r.getIdTrabajador()
             });
         }
     }
 
     private void cargarReservaSeleccionada() {
         int fila = tblReservas.getSelectedRow();
-        if (fila >= 0) {
-            txtIdReserva.setText(modeloTabla.getValueAt(fila, 0).toString());
-            txtClienteId.setText(modeloTabla.getValueAt(fila, 1).toString());
-            txtVehiculoId.setText(modeloTabla.getValueAt(fila, 2).toString());
-            txtFechaReserva.setText(modeloTabla.getValueAt(fila, 3).toString());
-            txtFechaInicio.setText(modeloTabla.getValueAt(fila, 4).toString());
-            txtFechaFin.setText(modeloTabla.getValueAt(fila, 5).toString());
-            txtEstado.setText(modeloTabla.getValueAt(fila, 6).toString());
+        if (fila >= 0 && fila < reservasActuales.size()) {
+            Reserva reserva = reservasActuales.get(fila);
+            txtIdReserva.setText(String.valueOf(reserva.getIdReserva()));
+            txtIdCliente.setText(String.valueOf(reserva.getIdCliente()));
+            txtPatente.setText(reserva.getPatente());
+            txtFechaReserva.setText(formatDate(reserva.getFechaReserva()));
+            txtFechaInicio.setText(formatDate(reserva.getFechaInicio()));
+            txtFechaFin.setText(formatDate(reserva.getFechaFin()));
+            txtEstadoReserva.setText(reserva.getEstadoReserva());
+            txtMontoEstimado.setText(reserva.getMontoEstimado() != null ? reserva.getMontoEstimado().toPlainString() : "");
+            txtIdTrabajador.setText(String.valueOf(reserva.getIdTrabajador()));
         }
     }
 
     private void guardarReserva() {
-        try {
-            Reserva reserva = new Reserva();
-            reserva.setClienteId(Integer.parseInt(txtClienteId.getText()));
-            reserva.setVehiculoId(Integer.parseInt(txtVehiculoId.getText()));
-            reserva.setFechaReserva(LocalDate.parse(txtFechaReserva.getText()));
-            reserva.setFechaInicio(LocalDate.parse(txtFechaInicio.getText()));
-            reserva.setFechaFin(LocalDate.parse(txtFechaFin.getText()));
-            reserva.setEstado(txtEstado.getText());
+        Reserva reserva = leerReservaDesdeFormulario(false);
+        if (reserva == null) {
+            return;
+        }
 
-            if (controller.crearReserva(reserva)) {
-                JOptionPane.showMessageDialog(this, "Reserva registrada correctamente");
-                cargarReservas();
-                limpiarFormulario();
-            } else {
-                JOptionPane.showMessageDialog(this, "No fue posible registrar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Verifique los datos ingresados. Formato de fechas: YYYY-MM-DD", "Validación", JOptionPane.WARNING_MESSAGE);
+        if (controller.crearReserva(reserva)) {
+            JOptionPane.showMessageDialog(this, "Reserva registrada correctamente");
+            cargarReservas();
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(this, "No fue posible registrar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -170,24 +181,16 @@ public class FrmReservas extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            Reserva reserva = new Reserva();
-            reserva.setIdReserva(Integer.parseInt(txtIdReserva.getText()));
-            reserva.setClienteId(Integer.parseInt(txtClienteId.getText()));
-            reserva.setVehiculoId(Integer.parseInt(txtVehiculoId.getText()));
-            reserva.setFechaReserva(LocalDate.parse(txtFechaReserva.getText()));
-            reserva.setFechaInicio(LocalDate.parse(txtFechaInicio.getText()));
-            reserva.setFechaFin(LocalDate.parse(txtFechaFin.getText()));
-            reserva.setEstado(txtEstado.getText());
+        Reserva reserva = leerReservaDesdeFormulario(true);
+        if (reserva == null) {
+            return;
+        }
 
-            if (controller.actualizarReserva(reserva)) {
-                JOptionPane.showMessageDialog(this, "Reserva actualizada correctamente");
-                cargarReservas();
-            } else {
-                JOptionPane.showMessageDialog(this, "No fue posible actualizar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Verifique los datos ingresados. Formato de fechas: YYYY-MM-DD", "Validación", JOptionPane.WARNING_MESSAGE);
+        if (controller.actualizarReserva(reserva)) {
+            JOptionPane.showMessageDialog(this, "Reserva actualizada correctamente");
+            cargarReservas();
+        } else {
+            JOptionPane.showMessageDialog(this, "No fue posible actualizar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -211,21 +214,95 @@ public class FrmReservas extends javax.swing.JFrame {
         }
     }
 
+    private Reserva leerReservaDesdeFormulario(boolean incluirId) {
+        Reserva reserva = new Reserva();
+
+        if (incluirId) {
+            try {
+                reserva.setIdReserva(Integer.parseInt(txtIdReserva.getText().trim()));
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "El ID de la reserva no es válido", "Validación", JOptionPane.WARNING_MESSAGE);
+                return null;
+            }
+        }
+
+        String patente = txtPatente.getText().trim();
+        if (patente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La patente es obligatoria", "Validación", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+        String estado = txtEstadoReserva.getText().trim();
+        if (estado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El estado de la reserva es obligatorio", "Validación", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+        try {
+            reserva.setIdCliente(Integer.parseInt(txtIdCliente.getText().trim()));
+            reserva.setPatente(patente);
+            reserva.setFechaReserva(parseFecha(txtFechaReserva.getText().trim(), "fecha de reserva"));
+            reserva.setFechaInicio(parseFecha(txtFechaInicio.getText().trim(), "fecha de inicio"));
+            reserva.setFechaFin(parseFecha(txtFechaFin.getText().trim(), "fecha de fin"));
+            reserva.setEstadoReserva(estado);
+            reserva.setMontoEstimado(parseBigDecimal(txtMontoEstimado.getText().trim(), "monto estimado"));
+            reserva.setIdTrabajador(Integer.parseInt(txtIdTrabajador.getText().trim()));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Los campos numéricos deben contener valores válidos", "Validación", JOptionPane.WARNING_MESSAGE);
+            return null;
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+
+        return reserva;
+    }
+
+    private LocalDate parseFecha(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo " + campo + " es obligatorio", "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Fecha requerida");
+        }
+        try {
+            return LocalDate.parse(valor);
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido en " + campo + ". Use yyyy-MM-dd.", "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Fecha inválida");
+        }
+    }
+
+    private BigDecimal parseBigDecimal(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        try {
+            return new BigDecimal(valor);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Formato numérico inválido en " + campo, "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Número inválido");
+        }
+    }
+
+    private String formatDate(LocalDate date) {
+        return date != null ? date.toString() : "";
+    }
+
     private void limpiarFormulario() {
         txtIdReserva.setText("");
-        txtClienteId.setText("");
-        txtVehiculoId.setText("");
+        txtIdCliente.setText("");
+        txtPatente.setText("");
         txtFechaReserva.setText("");
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
-        txtEstado.setText("");
+        txtEstadoReserva.setText("");
+        txtMontoEstimado.setText("");
+        txtIdTrabajador.setText("");
         tblReservas.clearSelection();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            FrmReservas frame = new FrmReservas(new Conexion());
-            frame.setVisible(true);
+            Conexion conexion = new Conexion();
+            new FrmReservas(conexion).setVisible(true);
         });
     }
 }

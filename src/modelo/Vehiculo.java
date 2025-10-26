@@ -1,109 +1,72 @@
 package modelo;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
- * Entidad que representa los vehículos disponibles en el inventario de renta.
+ * Entidad que representa a los vehículos disponibles para arriendo.
  */
 public class Vehiculo {
 
-    private int idVehiculo;
-    private int modeloId;
-    private int marcaId;
-    private int anio;
-    private String color;
-    private String numeroPlaca;
-    private double kilometraje;
-    private String estado;
+    private String patente;
+    private int idModelo;
+    private LocalDate anio;
     private String tipoCombustible;
+    private int kilometraje;
+    private String color;
+    private int numeroAsientos;
+    private String tipoVehiculo;
     private BigDecimal tarifaDiaria;
+    private String estadoMantenimiento;
+    private String disponibilidad;
+    private LocalDate fechaRegistro;
+    private LocalDate fechaUltimaRevision;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(int idVehiculo, int modeloId, int marcaId, int anio,
-            String color, String numeroPlaca, double kilometraje, String estado,
-            String tipoCombustible, BigDecimal tarifaDiaria) {
-        this.idVehiculo = idVehiculo;
-        this.modeloId = modeloId;
-        this.marcaId = marcaId;
+    public Vehiculo(String patente, int idModelo, LocalDate anio,
+            String tipoCombustible, int kilometraje, String color,
+            int numeroAsientos, String tipoVehiculo, BigDecimal tarifaDiaria,
+            String estadoMantenimiento, String disponibilidad,
+            LocalDate fechaRegistro, LocalDate fechaUltimaRevision) {
+        this.patente = patente;
+        this.idModelo = idModelo;
         this.anio = anio;
-        this.color = color;
-        this.numeroPlaca = numeroPlaca;
-        this.kilometraje = kilometraje;
-        this.estado = estado;
         this.tipoCombustible = tipoCombustible;
+        this.kilometraje = kilometraje;
+        this.color = color;
+        this.numeroAsientos = numeroAsientos;
+        this.tipoVehiculo = tipoVehiculo;
         this.tarifaDiaria = tarifaDiaria;
+        this.estadoMantenimiento = estadoMantenimiento;
+        this.disponibilidad = disponibilidad;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaUltimaRevision = fechaUltimaRevision;
     }
 
-    public Vehiculo(int idVehiculo, int modeloId, int marcaId, int anio,
-            String color, String numeroPlaca, double kilometraje, String estado) {
-        this(idVehiculo, modeloId, marcaId, anio, color, numeroPlaca,
-                kilometraje, estado, null, BigDecimal.ZERO);
+    public String getPatente() {
+        return patente;
     }
 
-    public int getIdVehiculo() {
-        return idVehiculo;
+    public void setPatente(String patente) {
+        this.patente = patente;
     }
 
-    public void setIdVehiculo(int idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public int getIdModelo() {
+        return idModelo;
     }
 
-    public int getModeloId() {
-        return modeloId;
+    public void setIdModelo(int idModelo) {
+        this.idModelo = idModelo;
     }
 
-    public void setModeloId(int modeloId) {
-        this.modeloId = modeloId;
-    }
-
-    public int getMarcaId() {
-        return marcaId;
-    }
-
-    public void setMarcaId(int marcaId) {
-        this.marcaId = marcaId;
-    }
-
-    public int getAnio() {
+    public LocalDate getAnio() {
         return anio;
     }
 
-    public void setAnio(int anio) {
+    public void setAnio(LocalDate anio) {
         this.anio = anio;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getNumeroPlaca() {
-        return numeroPlaca;
-    }
-
-    public void setNumeroPlaca(String numeroPlaca) {
-        this.numeroPlaca = numeroPlaca;
-    }
-
-    public double getKilometraje() {
-        return kilometraje;
-    }
-
-    public void setKilometraje(double kilometraje) {
-        this.kilometraje = kilometraje;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getTipoCombustible() {
@@ -114,11 +77,75 @@ public class Vehiculo {
         this.tipoCombustible = tipoCombustible;
     }
 
+    public int getKilometraje() {
+        return kilometraje;
+    }
+
+    public void setKilometraje(int kilometraje) {
+        this.kilometraje = kilometraje;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getNumeroAsientos() {
+        return numeroAsientos;
+    }
+
+    public void setNumeroAsientos(int numeroAsientos) {
+        this.numeroAsientos = numeroAsientos;
+    }
+
+    public String getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public void setTipoVehiculo(String tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+
     public BigDecimal getTarifaDiaria() {
         return tarifaDiaria;
     }
 
     public void setTarifaDiaria(BigDecimal tarifaDiaria) {
         this.tarifaDiaria = tarifaDiaria;
+    }
+
+    public String getEstadoMantenimiento() {
+        return estadoMantenimiento;
+    }
+
+    public void setEstadoMantenimiento(String estadoMantenimiento) {
+        this.estadoMantenimiento = estadoMantenimiento;
+    }
+
+    public String getDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(String disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public LocalDate getFechaUltimaRevision() {
+        return fechaUltimaRevision;
+    }
+
+    public void setFechaUltimaRevision(LocalDate fechaUltimaRevision) {
+        this.fechaUltimaRevision = fechaUltimaRevision;
     }
 }

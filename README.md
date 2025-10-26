@@ -2,7 +2,8 @@
 
 Proyecto académico desarrollado en Java que implementa un sistema de gestión de alquiler de vehículos bajo arquitectura MVC.
 Incluye separación en paquetes, modelos orientados a objetos con herencia, controladores con operaciones CRUD mediante JDBC y
-vistas construidas con Swing (JFrame).
+vistas construidas con Swing (JFrame). Toda la capa de datos respeta los nombres de tablas y columnas oficiales de la base de
+datos `rentacar`.
 
 ## Estructura del proyecto
 
@@ -55,8 +56,13 @@ private final String user = "ian";
 private final String password = "BN/A7R3.pkLtUOYB";
 ```
 
-Asegúrate de que la base de datos y las tablas existan con la estructura esperada antes de ejecutar la aplicación. Los controladores
-incluyen operaciones CRUD para las tablas `USUARIOS`, `CLIENTES_INFO`, `VEHICULOS` y `RESERVAS`.
+Asegúrate de que la base de datos y las tablas existan con la estructura esperada antes de ejecutar la aplicación. Los
+controladores incluyen operaciones CRUD para las tablas `USUARIOS`, `CLIENTES_INFO`, `VEHICULOS` y `RESERVAS`, utilizando los
+campos exactos definidos en la base (por ejemplo `fecha_ultima_modificacion`, `numero_licencia`, `tarifa_diaria` o
+`estado_reserva`).
+
+El script `database/rentacar_schema.sql` contiene la definición completa de las 14 tablas solicitadas con sus llaves primarias y
+foráneas, listo para ejecutarse en MySQL.
 
 ## Ejecución
 

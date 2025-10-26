@@ -4,31 +4,37 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Historial de mantenimientos asociados a un vehículo específico.
+ * Información histórica de mantenimientos aplicados a los vehículos.
  */
 public class MantenimientoVehiculo {
 
     private int idMantenimiento;
-    private int vehiculoId;
-    private int tipoId;
-    private String descripcion;
+    private String patente;
+    private int idTipoMantenimiento;
     private BigDecimal costo;
     private LocalDate fechaMantenimiento;
-    private String responsable;
+    private int kilometrajeMantenimiento;
+    private int proximoMantenimientoKm;
+    private LocalDate proximoMantenimientoFecha;
+    private int idTrabajador;
 
     public MantenimientoVehiculo() {
     }
 
-    public MantenimientoVehiculo(int idMantenimiento, int vehiculoId, int tipoId,
-            String descripcion, BigDecimal costo, LocalDate fechaMantenimiento,
-            String responsable) {
+    public MantenimientoVehiculo(int idMantenimiento, String patente,
+            int idTipoMantenimiento, BigDecimal costo,
+            LocalDate fechaMantenimiento, int kilometrajeMantenimiento,
+            int proximoMantenimientoKm, LocalDate proximoMantenimientoFecha,
+            int idTrabajador) {
         this.idMantenimiento = idMantenimiento;
-        this.vehiculoId = vehiculoId;
-        this.tipoId = tipoId;
-        this.descripcion = descripcion;
+        this.patente = patente;
+        this.idTipoMantenimiento = idTipoMantenimiento;
         this.costo = costo;
         this.fechaMantenimiento = fechaMantenimiento;
-        this.responsable = responsable;
+        this.kilometrajeMantenimiento = kilometrajeMantenimiento;
+        this.proximoMantenimientoKm = proximoMantenimientoKm;
+        this.proximoMantenimientoFecha = proximoMantenimientoFecha;
+        this.idTrabajador = idTrabajador;
     }
 
     public int getIdMantenimiento() {
@@ -39,28 +45,20 @@ public class MantenimientoVehiculo {
         this.idMantenimiento = idMantenimiento;
     }
 
-    public int getVehiculoId() {
-        return vehiculoId;
+    public String getPatente() {
+        return patente;
     }
 
-    public void setVehiculoId(int vehiculoId) {
-        this.vehiculoId = vehiculoId;
+    public void setPatente(String patente) {
+        this.patente = patente;
     }
 
-    public int getTipoId() {
-        return tipoId;
+    public int getIdTipoMantenimiento() {
+        return idTipoMantenimiento;
     }
 
-    public void setTipoId(int tipoId) {
-        this.tipoId = tipoId;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setIdTipoMantenimiento(int idTipoMantenimiento) {
+        this.idTipoMantenimiento = idTipoMantenimiento;
     }
 
     public BigDecimal getCosto() {
@@ -79,11 +77,35 @@ public class MantenimientoVehiculo {
         this.fechaMantenimiento = fechaMantenimiento;
     }
 
-    public String getResponsable() {
-        return responsable;
+    public int getKilometrajeMantenimiento() {
+        return kilometrajeMantenimiento;
     }
 
-    public void setResponsable(String responsable) {
-        this.responsable = responsable;
+    public void setKilometrajeMantenimiento(int kilometrajeMantenimiento) {
+        this.kilometrajeMantenimiento = kilometrajeMantenimiento;
+    }
+
+    public int getProximoMantenimientoKm() {
+        return proximoMantenimientoKm;
+    }
+
+    public void setProximoMantenimientoKm(int proximoMantenimientoKm) {
+        this.proximoMantenimientoKm = proximoMantenimientoKm;
+    }
+
+    public LocalDate getProximoMantenimientoFecha() {
+        return proximoMantenimientoFecha;
+    }
+
+    public void setProximoMantenimientoFecha(LocalDate proximoMantenimientoFecha) {
+        this.proximoMantenimientoFecha = proximoMantenimientoFecha;
+    }
+
+    public int getIdTrabajador() {
+        return idTrabajador;
+    }
+
+    public void setIdTrabajador(int idTrabajador) {
+        this.idTrabajador = idTrabajador;
     }
 }

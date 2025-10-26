@@ -1,32 +1,33 @@
 package modelo;
 
 /**
- * Clasificación de los mantenimientos ejecutados sobre los vehículos.
+ * Datos maestros para los tipos de mantenimiento que pueden aplicarse a un
+ * vehículo.
  */
 public class TipoMantenimiento {
 
-    private int idTipo;
+    private int idMantenimiento;
     private String nombre;
     private String descripcion;
-    private int frecuenciaDias;
+    private int kilometrajeRecomendado;
 
     public TipoMantenimiento() {
     }
 
-    public TipoMantenimiento(int idTipo, String nombre, String descripcion,
-            int frecuenciaDias) {
-        this.idTipo = idTipo;
+    public TipoMantenimiento(int idMantenimiento, String nombre,
+            String descripcion, int kilometrajeRecomendado) {
+        this.idMantenimiento = idMantenimiento;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.frecuenciaDias = frecuenciaDias;
+        this.kilometrajeRecomendado = kilometrajeRecomendado;
     }
 
-    public int getIdTipo() {
-        return idTipo;
+    public int getIdMantenimiento() {
+        return idMantenimiento;
     }
 
-    public void setIdTipo(int idTipo) {
-        this.idTipo = idTipo;
+    public void setIdMantenimiento(int idMantenimiento) {
+        this.idMantenimiento = idMantenimiento;
     }
 
     public String getNombre() {
@@ -45,11 +46,11 @@ public class TipoMantenimiento {
         this.descripcion = descripcion;
     }
 
-    public int getFrecuenciaDias() {
-        return frecuenciaDias;
+    public int getKilometrajeRecomendado() {
+        return kilometrajeRecomendado;
     }
 
-    public void setFrecuenciaDias(int frecuenciaDias) {
-        this.frecuenciaDias = frecuenciaDias;
+    public void setKilometrajeRecomendado(int kilometrajeRecomendado) {
+        this.kilometrajeRecomendado = kilometrajeRecomendado;
     }
 }

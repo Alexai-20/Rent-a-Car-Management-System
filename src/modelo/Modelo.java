@@ -1,26 +1,21 @@
 package modelo;
 
 /**
- * Modelo comercial de un vehículo, asociado a una {@link Marca}.
+ * Representa a la tabla MODELOS.
  */
 public class Modelo {
 
     private int idModelo;
-    private int marcaId;
-    private String nombre;
-    private String tipo;
-    private int capacidadPasajeros;
+    private int idMarca;
+    private String nombreModelo;
 
     public Modelo() {
     }
 
-    public Modelo(int idModelo, int marcaId, String nombre, String tipo,
-            int capacidadPasajeros) {
+    public Modelo(int idModelo, int idMarca, String nombreModelo) {
         this.idModelo = idModelo;
-        this.marcaId = marcaId;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.capacidadPasajeros = capacidadPasajeros;
+        this.idMarca = idMarca;
+        this.nombreModelo = nombreModelo;
     }
 
     public int getIdModelo() {
@@ -31,35 +26,19 @@ public class Modelo {
         this.idModelo = idModelo;
     }
 
-    public int getMarcaId() {
-        return marcaId;
+    public int getIdMarca() {
+        return idMarca;
     }
 
-    public void setMarcaId(int marcaId) {
-        this.marcaId = marcaId;
+    public void setIdMarca(int idMarca) {
+        this.idMarca = idMarca;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreModelo() {
+        return nombreModelo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public int getCapacidadPasajeros() {
-        return capacidadPasajeros;
-    }
-
-    public void setCapacidadPasajeros(int capacidadPasajeros) {
-        this.capacidadPasajeros = capacidadPasajeros;
+    public void setNombreModelo(String nombreModelo) {
+        this.nombreModelo = nombreModelo;
     }
 }

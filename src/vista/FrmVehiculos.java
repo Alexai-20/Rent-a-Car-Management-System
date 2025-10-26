@@ -5,6 +5,10 @@ import controlador.VehiculoController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,22 +30,28 @@ public class FrmVehiculos extends javax.swing.JFrame {
 
     private final VehiculoController controller;
     private final DefaultTableModel modeloTabla;
+    private final List<Vehiculo> vehiculosActuales = new ArrayList<>();
 
-    private final JTextField txtIdVehiculo = new JTextField();
-    private final JTextField txtModeloId = new JTextField();
-    private final JTextField txtMarcaId = new JTextField();
+    private final JTextField txtPatente = new JTextField();
+    private final JTextField txtIdModelo = new JTextField();
     private final JTextField txtAnio = new JTextField();
-    private final JTextField txtColor = new JTextField();
-    private final JTextField txtPlaca = new JTextField();
+    private final JTextField txtTipoCombustible = new JTextField();
     private final JTextField txtKilometraje = new JTextField();
-    private final JTextField txtEstado = new JTextField();
+    private final JTextField txtColor = new JTextField();
+    private final JTextField txtNumeroAsientos = new JTextField();
+    private final JTextField txtTipoVehiculo = new JTextField();
+    private final JTextField txtTarifaDiaria = new JTextField();
+    private final JTextField txtEstadoMantenimiento = new JTextField();
+    private final JTextField txtDisponibilidad = new JTextField();
+    private final JTextField txtFechaRegistro = new JTextField();
+    private final JTextField txtFechaUltimaRevision = new JTextField();
 
     private final JTable tblVehiculos = new JTable();
 
     public FrmVehiculos(Conexion conexion) {
         this.controller = new VehiculoController(conexion);
         this.modeloTabla = new DefaultTableModel(
-                new Object[]{"ID", "Modelo", "Marca", "Año", "Color", "Placa", "Kilometraje", "Estado"}, 0
+                new Object[]{"Patente", "Modelo", "Tipo", "Disponibilidad", "Tarifa diaria", "Estado mant."}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -54,41 +64,55 @@ public class FrmVehiculos extends javax.swing.JFrame {
 
     private void initComponents() {
         setTitle("Gestión de Vehículos");
-        setSize(850, 550);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        JPanel panelFormulario = new JPanel(new GridLayout(0, 2, 10, 10));
-        panelFormulario.add(new JLabel("ID Vehículo:"));
-        txtIdVehiculo.setEditable(false);
-        panelFormulario.add(txtIdVehiculo);
+        JPanel panelFormulario = new JPanel(new GridLayout(0, 2, 10, 8));
+        panelFormulario.add(new JLabel("Patente:"));
+        panelFormulario.add(txtPatente);
 
         panelFormulario.add(new JLabel("ID Modelo:"));
-        panelFormulario.add(txtModeloId);
+        panelFormulario.add(txtIdModelo);
 
-        panelFormulario.add(new JLabel("ID Marca:"));
-        panelFormulario.add(txtMarcaId);
-
-        panelFormulario.add(new JLabel("Año:"));
+        panelFormulario.add(new JLabel("Año (yyyy-MM-dd):"));
         panelFormulario.add(txtAnio);
 
-        panelFormulario.add(new JLabel("Color:"));
-        panelFormulario.add(txtColor);
-
-        panelFormulario.add(new JLabel("Número de Placa:"));
-        panelFormulario.add(txtPlaca);
+        panelFormulario.add(new JLabel("Tipo combustible:"));
+        panelFormulario.add(txtTipoCombustible);
 
         panelFormulario.add(new JLabel("Kilometraje:"));
         panelFormulario.add(txtKilometraje);
 
-        panelFormulario.add(new JLabel("Estado:"));
-        panelFormulario.add(txtEstado);
+        panelFormulario.add(new JLabel("Color:"));
+        panelFormulario.add(txtColor);
+
+        panelFormulario.add(new JLabel("Número de asientos:"));
+        panelFormulario.add(txtNumeroAsientos);
+
+        panelFormulario.add(new JLabel("Tipo de vehículo:"));
+        panelFormulario.add(txtTipoVehiculo);
+
+        panelFormulario.add(new JLabel("Tarifa diaria:"));
+        panelFormulario.add(txtTarifaDiaria);
+
+        panelFormulario.add(new JLabel("Estado mantenimiento:"));
+        panelFormulario.add(txtEstadoMantenimiento);
+
+        panelFormulario.add(new JLabel("Disponibilidad:"));
+        panelFormulario.add(txtDisponibilidad);
+
+        panelFormulario.add(new JLabel("Fecha registro (yyyy-MM-dd):"));
+        panelFormulario.add(txtFechaRegistro);
+
+        panelFormulario.add(new JLabel("Última revisión (yyyy-MM-dd):"));
+        panelFormulario.add(txtFechaUltimaRevision);
 
         add(panelFormulario, BorderLayout.NORTH);
 
         tblVehiculos.setModel(modeloTabla);
-        tblVehiculos.setPreferredScrollableViewportSize(new Dimension(600, 250));
+        tblVehiculos.setPreferredScrollableViewportSize(new Dimension(800, 260));
         tblVehiculos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 cargarVehiculoSeleccionado();
@@ -116,56 +140,61 @@ public class FrmVehiculos extends javax.swing.JFrame {
     }
 
     private void cargarVehiculos() {
+        vehiculosActuales.clear();
+        vehiculosActuales.addAll(controller.obtenerVehiculos());
         modeloTabla.setRowCount(0);
-        List<Vehiculo> vehiculos = controller.obtenerVehiculos();
-        for (Vehiculo v : vehiculos) {
+        for (Vehiculo v : vehiculosActuales) {
             modeloTabla.addRow(new Object[]{
-                v.getIdVehiculo(),
-                v.getModeloId(),
-                v.getMarcaId(),
-                v.getAnio(),
-                v.getColor(),
-                v.getNumeroPlaca(),
-                v.getKilometraje(),
-                v.getEstado()
+                v.getPatente(),
+                v.getIdModelo(),
+                v.getTipoVehiculo(),
+                v.getDisponibilidad(),
+                v.getTarifaDiaria(),
+                v.getEstadoMantenimiento()
             });
         }
     }
 
     private void cargarVehiculoSeleccionado() {
         int fila = tblVehiculos.getSelectedRow();
-        if (fila >= 0) {
-            txtIdVehiculo.setText(modeloTabla.getValueAt(fila, 0).toString());
-            txtModeloId.setText(modeloTabla.getValueAt(fila, 1).toString());
-            txtMarcaId.setText(modeloTabla.getValueAt(fila, 2).toString());
-            txtAnio.setText(modeloTabla.getValueAt(fila, 3).toString());
-            txtColor.setText(modeloTabla.getValueAt(fila, 4).toString());
-            txtPlaca.setText(modeloTabla.getValueAt(fila, 5).toString());
-            txtKilometraje.setText(modeloTabla.getValueAt(fila, 6).toString());
-            txtEstado.setText(modeloTabla.getValueAt(fila, 7).toString());
+        if (fila >= 0 && fila < vehiculosActuales.size()) {
+            Vehiculo vehiculo = vehiculosActuales.get(fila);
+            txtPatente.setText(vehiculo.getPatente());
+            txtIdModelo.setText(String.valueOf(vehiculo.getIdModelo()));
+            txtAnio.setText(formatDate(vehiculo.getAnio()));
+            txtTipoCombustible.setText(vehiculo.getTipoCombustible());
+            txtKilometraje.setText(String.valueOf(vehiculo.getKilometraje()));
+            txtColor.setText(vehiculo.getColor());
+            txtNumeroAsientos.setText(String.valueOf(vehiculo.getNumeroAsientos()));
+            txtTipoVehiculo.setText(vehiculo.getTipoVehiculo());
+            txtTarifaDiaria.setText(vehiculo.getTarifaDiaria() != null ? vehiculo.getTarifaDiaria().toPlainString() : "");
+            txtEstadoMantenimiento.setText(vehiculo.getEstadoMantenimiento());
+            txtDisponibilidad.setText(vehiculo.getDisponibilidad());
+            txtFechaRegistro.setText(formatDate(vehiculo.getFechaRegistro()));
+            txtFechaUltimaRevision.setText(formatDate(vehiculo.getFechaUltimaRevision()));
         }
     }
 
     private void guardarVehiculo() {
-        try {
-            Vehiculo vehiculo = new Vehiculo();
-            vehiculo.setModeloId(Integer.parseInt(txtModeloId.getText()));
-            vehiculo.setMarcaId(Integer.parseInt(txtMarcaId.getText()));
-            vehiculo.setAnio(Integer.parseInt(txtAnio.getText()));
-            vehiculo.setColor(txtColor.getText());
-            vehiculo.setNumeroPlaca(txtPlaca.getText());
-            vehiculo.setKilometraje(Double.parseDouble(txtKilometraje.getText()));
-            vehiculo.setEstado(txtEstado.getText());
+        Vehiculo vehiculo = leerVehiculoDesdeFormulario();
+        if (vehiculo == null) {
+            return;
+        }
 
-            if (controller.crearVehiculo(vehiculo)) {
-                JOptionPane.showMessageDialog(this, "Vehículo registrado correctamente");
-                cargarVehiculos();
-                limpiarFormulario();
-            } else {
-                JOptionPane.showMessageDialog(this, "No fue posible registrar el vehículo", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Los campos numéricos deben contener valores válidos", "Validación", JOptionPane.WARNING_MESSAGE);
+        LocalDate hoy = LocalDate.now();
+        if (vehiculo.getFechaRegistro() == null) {
+            vehiculo.setFechaRegistro(hoy);
+        }
+        if (vehiculo.getFechaUltimaRevision() == null) {
+            vehiculo.setFechaUltimaRevision(hoy);
+        }
+
+        if (controller.crearVehiculo(vehiculo)) {
+            JOptionPane.showMessageDialog(this, "Vehículo registrado correctamente");
+            cargarVehiculos();
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(this, "No fue posible registrar el vehículo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -176,25 +205,16 @@ public class FrmVehiculos extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            Vehiculo vehiculo = new Vehiculo();
-            vehiculo.setIdVehiculo(Integer.parseInt(txtIdVehiculo.getText()));
-            vehiculo.setModeloId(Integer.parseInt(txtModeloId.getText()));
-            vehiculo.setMarcaId(Integer.parseInt(txtMarcaId.getText()));
-            vehiculo.setAnio(Integer.parseInt(txtAnio.getText()));
-            vehiculo.setColor(txtColor.getText());
-            vehiculo.setNumeroPlaca(txtPlaca.getText());
-            vehiculo.setKilometraje(Double.parseDouble(txtKilometraje.getText()));
-            vehiculo.setEstado(txtEstado.getText());
+        Vehiculo vehiculo = leerVehiculoDesdeFormulario();
+        if (vehiculo == null) {
+            return;
+        }
 
-            if (controller.actualizarVehiculo(vehiculo)) {
-                JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente");
-                cargarVehiculos();
-            } else {
-                JOptionPane.showMessageDialog(this, "No fue posible actualizar el vehículo", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Los campos numéricos deben contener valores válidos", "Validación", JOptionPane.WARNING_MESSAGE);
+        if (controller.actualizarVehiculo(vehiculo)) {
+            JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente");
+            cargarVehiculos();
+        } else {
+            JOptionPane.showMessageDialog(this, "No fue posible actualizar el vehículo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -207,8 +227,8 @@ public class FrmVehiculos extends javax.swing.JFrame {
 
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el vehículo seleccionado?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
-            int idVehiculo = Integer.parseInt(txtIdVehiculo.getText());
-            if (controller.eliminarVehiculo(idVehiculo)) {
+            String patente = txtPatente.getText().trim();
+            if (controller.eliminarVehiculo(patente)) {
                 JOptionPane.showMessageDialog(this, "Vehículo eliminado");
                 cargarVehiculos();
                 limpiarFormulario();
@@ -218,22 +238,104 @@ public class FrmVehiculos extends javax.swing.JFrame {
         }
     }
 
+    private Vehiculo leerVehiculoDesdeFormulario() {
+        String patente = txtPatente.getText().trim();
+        if (patente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La patente es obligatoria", "Validación", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setPatente(patente);
+
+        try {
+            vehiculo.setIdModelo(Integer.parseInt(txtIdModelo.getText().trim()));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El ID de modelo debe ser numérico", "Validación", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+        try {
+            vehiculo.setAnio(parseFecha(txtAnio.getText().trim(), "año"));
+            vehiculo.setTipoCombustible(txtTipoCombustible.getText().trim());
+            vehiculo.setKilometraje(parseEntero(txtKilometraje.getText().trim(), "kilometraje"));
+            vehiculo.setColor(txtColor.getText().trim());
+            vehiculo.setNumeroAsientos(parseEntero(txtNumeroAsientos.getText().trim(), "número de asientos"));
+            vehiculo.setTipoVehiculo(txtTipoVehiculo.getText().trim());
+            vehiculo.setTarifaDiaria(parseBigDecimal(txtTarifaDiaria.getText().trim(), "tarifa diaria"));
+            vehiculo.setEstadoMantenimiento(txtEstadoMantenimiento.getText().trim());
+            vehiculo.setDisponibilidad(txtDisponibilidad.getText().trim());
+            vehiculo.setFechaRegistro(parseFecha(txtFechaRegistro.getText().trim(), "fecha de registro"));
+            vehiculo.setFechaUltimaRevision(parseFecha(txtFechaUltimaRevision.getText().trim(), "última revisión"));
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+
+        return vehiculo;
+    }
+
+    private LocalDate parseFecha(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(valor);
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido en " + campo + ". Use yyyy-MM-dd.", "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Fecha inválida");
+        }
+    }
+
+    private BigDecimal parseBigDecimal(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        try {
+            return new BigDecimal(valor);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Formato numérico inválido en " + campo, "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Número inválido");
+        }
+    }
+
+    private int parseEntero(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo " + campo + " es obligatorio", "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Entero requerido");
+        }
+        try {
+            return Integer.parseInt(valor);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Formato numérico inválido en " + campo, "Validación", JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Número inválido");
+        }
+    }
+
+    private String formatDate(LocalDate date) {
+        return date != null ? date.toString() : "";
+    }
+
     private void limpiarFormulario() {
-        txtIdVehiculo.setText("");
-        txtModeloId.setText("");
-        txtMarcaId.setText("");
+        txtPatente.setText("");
+        txtIdModelo.setText("");
         txtAnio.setText("");
-        txtColor.setText("");
-        txtPlaca.setText("");
+        txtTipoCombustible.setText("");
         txtKilometraje.setText("");
-        txtEstado.setText("");
+        txtColor.setText("");
+        txtNumeroAsientos.setText("");
+        txtTipoVehiculo.setText("");
+        txtTarifaDiaria.setText("");
+        txtEstadoMantenimiento.setText("");
+        txtDisponibilidad.setText("");
+        txtFechaRegistro.setText("");
+        txtFechaUltimaRevision.setText("");
         tblVehiculos.clearSelection();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            FrmVehiculos frame = new FrmVehiculos(new Conexion());
-            frame.setVisible(true);
+            Conexion conexion = new Conexion();
+            new FrmVehiculos(conexion).setVisible(true);
         });
     }
 }

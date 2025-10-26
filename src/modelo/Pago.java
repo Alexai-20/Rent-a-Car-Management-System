@@ -4,28 +4,31 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Registro de los pagos aplicados a las facturas.
+ * Pagos registrados contra las facturas emitidas.
  */
 public class Pago {
 
     private int idPago;
-    private int facturaId;
-    private BigDecimal monto;
-    private LocalDate fechaPago;
+    private int idFactura;
+    private BigDecimal montoPago;
     private String metodoPago;
-    private String referenciaTransaccion;
+    private LocalDate fechaPago;
+    private String numeroTransaccion;
+    private int idTrabajador;
 
     public Pago() {
     }
 
-    public Pago(int idPago, int facturaId, BigDecimal monto, LocalDate fechaPago,
-            String metodoPago, String referenciaTransaccion) {
+    public Pago(int idPago, int idFactura, BigDecimal montoPago,
+            String metodoPago, LocalDate fechaPago, String numeroTransaccion,
+            int idTrabajador) {
         this.idPago = idPago;
-        this.facturaId = facturaId;
-        this.monto = monto;
-        this.fechaPago = fechaPago;
+        this.idFactura = idFactura;
+        this.montoPago = montoPago;
         this.metodoPago = metodoPago;
-        this.referenciaTransaccion = referenciaTransaccion;
+        this.fechaPago = fechaPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.idTrabajador = idTrabajador;
     }
 
     public int getIdPago() {
@@ -36,28 +39,20 @@ public class Pago {
         this.idPago = idPago;
     }
 
-    public int getFacturaId() {
-        return facturaId;
+    public int getIdFactura() {
+        return idFactura;
     }
 
-    public void setFacturaId(int facturaId) {
-        this.facturaId = facturaId;
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
     }
 
-    public BigDecimal getMonto() {
-        return monto;
+    public BigDecimal getMontoPago() {
+        return montoPago;
     }
 
-    public void setMonto(BigDecimal monto) {
-        this.monto = monto;
-    }
-
-    public LocalDate getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(LocalDate fechaPago) {
-        this.fechaPago = fechaPago;
+    public void setMontoPago(BigDecimal montoPago) {
+        this.montoPago = montoPago;
     }
 
     public String getMetodoPago() {
@@ -68,11 +63,27 @@ public class Pago {
         this.metodoPago = metodoPago;
     }
 
-    public String getReferenciaTransaccion() {
-        return referenciaTransaccion;
+    public LocalDate getFechaPago() {
+        return fechaPago;
     }
 
-    public void setReferenciaTransaccion(String referenciaTransaccion) {
-        this.referenciaTransaccion = referenciaTransaccion;
+    public void setFechaPago(LocalDate fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public String getNumeroTransaccion() {
+        return numeroTransaccion;
+    }
+
+    public void setNumeroTransaccion(String numeroTransaccion) {
+        this.numeroTransaccion = numeroTransaccion;
+    }
+
+    public int getIdTrabajador() {
+        return idTrabajador;
+    }
+
+    public void setIdTrabajador(int idTrabajador) {
+        this.idTrabajador = idTrabajador;
     }
 }

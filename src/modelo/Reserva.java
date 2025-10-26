@@ -1,42 +1,38 @@
 package modelo;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Reserva previa a un alquiler de vehículo.
+ * Información de reservas de vehículos.
  */
 public class Reserva {
 
     private int idReserva;
-    private int clienteId;
-    private int vehiculoId;
+    private int idCliente;
+    private String patente;
     private LocalDate fechaReserva;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private String estado;
-    private String comentarios;
+    private String estadoReserva;
+    private BigDecimal montoEstimado;
+    private int idTrabajador;
 
     public Reserva() {
     }
 
-    public Reserva(int idReserva, int clienteId, int vehiculoId,
+    public Reserva(int idReserva, int idCliente, String patente,
             LocalDate fechaReserva, LocalDate fechaInicio, LocalDate fechaFin,
-            String estado, String comentarios) {
+            String estadoReserva, BigDecimal montoEstimado, int idTrabajador) {
         this.idReserva = idReserva;
-        this.clienteId = clienteId;
-        this.vehiculoId = vehiculoId;
+        this.idCliente = idCliente;
+        this.patente = patente;
         this.fechaReserva = fechaReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.estado = estado;
-        this.comentarios = comentarios;
-    }
-
-    public Reserva(int idReserva, int clienteId, int vehiculoId,
-            LocalDate fechaReserva, LocalDate fechaInicio, LocalDate fechaFin,
-            String estado) {
-        this(idReserva, clienteId, vehiculoId, fechaReserva, fechaInicio,
-                fechaFin, estado, null);
+        this.estadoReserva = estadoReserva;
+        this.montoEstimado = montoEstimado;
+        this.idTrabajador = idTrabajador;
     }
 
     public int getIdReserva() {
@@ -47,20 +43,20 @@ public class Reserva {
         this.idReserva = idReserva;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public int getVehiculoId() {
-        return vehiculoId;
+    public String getPatente() {
+        return patente;
     }
 
-    public void setVehiculoId(int vehiculoId) {
-        this.vehiculoId = vehiculoId;
+    public void setPatente(String patente) {
+        this.patente = patente;
     }
 
     public LocalDate getFechaReserva() {
@@ -87,19 +83,27 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getEstadoReserva() {
+        return estadoReserva;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setEstadoReserva(String estadoReserva) {
+        this.estadoReserva = estadoReserva;
     }
 
-    public String getComentarios() {
-        return comentarios;
+    public BigDecimal getMontoEstimado() {
+        return montoEstimado;
     }
 
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
+    public void setMontoEstimado(BigDecimal montoEstimado) {
+        this.montoEstimado = montoEstimado;
+    }
+
+    public int getIdTrabajador() {
+        return idTrabajador;
+    }
+
+    public void setIdTrabajador(int idTrabajador) {
+        this.idTrabajador = idTrabajador;
     }
 }

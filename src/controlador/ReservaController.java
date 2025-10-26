@@ -1,17 +1,18 @@
 package controlador;
 
 import conexion.Conexion;
+import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Reserva;
 
 /**
- * Controlador para las operaciones CRUD de la entidad {@link Reserva}.
+ * Controlador encargado de las operaciones sobre la tabla RESERVAS.
  */
 public class ReservaController {
 
@@ -22,17 +23,18 @@ public class ReservaController {
     }
 
     public boolean crearReserva(Reserva reserva) {
-        String sql = "INSERT INTO RESERVAS(cliente_id, vehiculo_id, fecha_reserva, fecha_inicio, fecha_fin, estado) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO RESERVAS(id_cliente, patente, fecha_reserva, fecha_inicio, fecha_fin, estado_reserva, monto_estimado, id_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conexion.conectar();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reserva.getClienteId());
-            ps.setInt(2, reserva.getVehiculoId());
-            ps.setDate(3, Date.valueOf(reserva.getFechaReserva()));
-            ps.setDate(4, Date.valueOf(reserva.getFechaInicio()));
-            ps.setDate(5, Date.valueOf(reserva.getFechaFin()));
-            ps.setString(6, reserva.getEstado());
+            ps.setInt(1, reserva.getIdCliente());
+            ps.setString(2, reserva.getPatente());
+            ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
+            ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
+            ps.setDate(5, toSqlDate(reserva.getFechaFin()));
+            ps.setString(6, reserva.getEstadoReserva());
+            ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
+            ps.setInt(8, reserva.getIdTrabajador());
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -43,7 +45,7 @@ public class ReservaController {
 
     public List<Reserva> obtenerReservas() {
         List<Reserva> reservas = new ArrayList<>();
-        String sql = "SELECT * FROM RESERVAS";
+        String sql = "SELECT id_reserva, id_cliente, patente, fecha_reserva, fecha_inicio, fecha_fin, estado_reserva, monto_estimado, id_trabajador FROM RESERVAS";
 
         try (Connection conn = conexion.conectar();
                 PreparedStatement ps = conn.prepareStatement(sql);
@@ -52,12 +54,14 @@ public class ReservaController {
             while (rs.next()) {
                 Reserva reserva = new Reserva(
                         rs.getInt("id_reserva"),
-                        rs.getInt("cliente_id"),
-                        rs.getInt("vehiculo_id"),
-                        rs.getDate("fecha_reserva").toLocalDate(),
-                        rs.getDate("fecha_inicio").toLocalDate(),
-                        rs.getDate("fecha_fin").toLocalDate(),
-                        rs.getString("estado")
+                        rs.getInt("id_cliente"),
+                        rs.getString("patente"),
+                        toLocalDate(rs.getDate("fecha_reserva")),
+                        toLocalDate(rs.getDate("fecha_inicio")),
+                        toLocalDate(rs.getDate("fecha_fin")),
+                        rs.getString("estado_reserva"),
+                        rs.getBigDecimal("monto_estimado"),
+                        rs.getInt("id_trabajador")
                 );
                 reservas.add(reserva);
             }
@@ -68,18 +72,19 @@ public class ReservaController {
     }
 
     public boolean actualizarReserva(Reserva reserva) {
-        String sql = "UPDATE RESERVAS SET cliente_id = ?, vehiculo_id = ?, fecha_reserva = ?, fecha_inicio = ?, fecha_fin = ?, estado = ? "
-                + "WHERE id_reserva = ?";
+        String sql = "UPDATE RESERVAS SET id_cliente = ?, patente = ?, fecha_reserva = ?, fecha_inicio = ?, fecha_fin = ?, estado_reserva = ?, monto_estimado = ?, id_trabajador = ? WHERE id_reserva = ?";
 
         try (Connection conn = conexion.conectar();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, reserva.getClienteId());
-            ps.setInt(2, reserva.getVehiculoId());
-            ps.setDate(3, Date.valueOf(reserva.getFechaReserva()));
-            ps.setDate(4, Date.valueOf(reserva.getFechaInicio()));
-            ps.setDate(5, Date.valueOf(reserva.getFechaFin()));
-            ps.setString(6, reserva.getEstado());
-            ps.setInt(7, reserva.getIdReserva());
+            ps.setInt(1, reserva.getIdCliente());
+            ps.setString(2, reserva.getPatente());
+            ps.setDate(3, toSqlDate(reserva.getFechaReserva()));
+            ps.setDate(4, toSqlDate(reserva.getFechaInicio()));
+            ps.setDate(5, toSqlDate(reserva.getFechaFin()));
+            ps.setString(6, reserva.getEstadoReserva());
+            ps.setBigDecimal(7, safeBigDecimal(reserva.getMontoEstimado()));
+            ps.setInt(8, reserva.getIdTrabajador());
+            ps.setInt(9, reserva.getIdReserva());
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -100,5 +105,17 @@ public class ReservaController {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    private java.sql.Date toSqlDate(LocalDate date) {
+        return date != null ? java.sql.Date.valueOf(date) : null;
+    }
+
+    private LocalDate toLocalDate(java.sql.Date date) {
+        return date != null ? date.toLocalDate() : null;
+    }
+
+    private BigDecimal safeBigDecimal(BigDecimal value) {
+        return value != null ? value : BigDecimal.ZERO;
     }
 }

@@ -1,47 +1,38 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
- * Cliente del sistema de renta. Extiende a {@link Usuario} para heredar los
- * atributos de autenticación y complementar con los datos personales propios de
- * la tabla CLIENTES_INFO.
+ * Representa a los clientes registrados en la aplicación. Extiende a
+ * {@link Usuario} para reutilizar los campos comunes definidos por la tabla
+ * USUARIOS y complementarlos con los datos de CLIENTES_INFO.
  */
 public class Cliente extends Usuario {
 
     private int idCliente;
-    private String nombres;
-    private String apellidos;
-    private String dni;
-    private String telefono;
-    private String email;
-    private String direccion;
-    private LocalDate fechaRegistro;
+    private String numeroLicencia;
+    private LocalDate fechaVencimientoLicencia;
+    private String tipoCliente;
+    private String empresa;
 
     public Cliente() {
     }
 
-    public Cliente(int idUsuario, String username, String password, int rolId,
-            boolean activo, LocalDateTime fechaCreacion, int idCliente,
-            String nombres, String apellidos, String dni, String telefono,
-            String email, String direccion, LocalDate fechaRegistro) {
-        super(idUsuario, username, password, rolId, activo, fechaCreacion);
+    public Cliente(int idUsuario, String nombre, String apellido, String rut,
+            String email, String telefono, String direccion,
+            LocalDate fechaNacimiento, String tipoUsuario, String estado,
+            LocalDate fechaRegistro, LocalDate fechaUltimaModificacion,
+            int idCliente, String numeroLicencia,
+            LocalDate fechaVencimientoLicencia, String tipoCliente,
+            String empresa) {
+        super(idUsuario, nombre, apellido, rut, email, telefono, direccion,
+                fechaNacimiento, tipoUsuario, estado, fechaRegistro,
+                fechaUltimaModificacion);
         this.idCliente = idCliente;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.email = email;
-        this.direccion = direccion;
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    public Cliente(int idUsuario, String username, String password, int rolId,
-            int idCliente, String nombres, String apellidos, String dni,
-            String telefono, String email, String direccion) {
-        this(idUsuario, username, password, rolId, true, null, idCliente,
-                nombres, apellidos, dni, telefono, email, direccion, null);
+        this.numeroLicencia = numeroLicencia;
+        this.fechaVencimientoLicencia = fechaVencimientoLicencia;
+        this.tipoCliente = tipoCliente;
+        this.empresa = empresa;
     }
 
     public int getIdCliente() {
@@ -52,64 +43,41 @@ public class Cliente extends Usuario {
         this.idCliente = idCliente;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNumeroLicencia() {
+        return numeroLicencia;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNumeroLicencia(String numeroLicencia) {
+        this.numeroLicencia = numeroLicencia;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public LocalDate getFechaVencimientoLicencia() {
+        return fechaVencimientoLicencia;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setFechaVencimientoLicencia(LocalDate fechaVencimientoLicencia) {
+        this.fechaVencimientoLicencia = fechaVencimientoLicencia;
     }
 
-    public String getDni() {
-        return dni;
+    public String getTipoCliente() {
+        return tipoCliente;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setTipoCliente(String tipoCliente) {
+        this.tipoCliente = tipoCliente;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getEmpresa() {
+        return empresa;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public LocalDate getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
     @Override
     public String resumenPerfil() {
-        return String.format("Cliente %s %s - DNI %s", nombres, apellidos, dni);
+        return String.format("Cliente %s %s (%s)", getNombre(), getApellido(),
+                getTipoCliente());
     }
 }

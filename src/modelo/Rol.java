@@ -1,23 +1,23 @@
 package modelo;
 
 /**
- * Roles disponibles para la gestión de permisos dentro del sistema.
+ * Entidad correspondiente a la tabla ROLES.
  */
 public class Rol {
 
     private int idRol;
-    private String nombre;
+    private String nombreRol;
     private String descripcion;
-    private String nivelAcceso;
+    private String permisos;
 
     public Rol() {
     }
 
-    public Rol(int idRol, String nombre, String descripcion, String nivelAcceso) {
+    public Rol(int idRol, String nombreRol, String descripcion, String permisos) {
         this.idRol = idRol;
-        this.nombre = nombre;
+        this.nombreRol = nombreRol;
         this.descripcion = descripcion;
-        this.nivelAcceso = nivelAcceso;
+        this.permisos = permisos;
     }
 
     public int getIdRol() {
@@ -28,12 +28,12 @@ public class Rol {
         this.idRol = idRol;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreRol() {
+        return nombreRol;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
 
     public String getDescripcion() {
@@ -44,11 +44,11 @@ public class Rol {
         this.descripcion = descripcion;
     }
 
-    public String getNivelAcceso() {
-        return nivelAcceso;
+    public String getPermisos() {
+        return permisos;
     }
 
-    public void setNivelAcceso(String nivelAcceso) {
-        this.nivelAcceso = nivelAcceso;
+    public void setPermisos(String permisos) {
+        this.permisos = permisos;
     }
 }

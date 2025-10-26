@@ -3,26 +3,26 @@ package modelo;
 import java.time.LocalDate;
 
 /**
- * Registro de eventos relevantes asociados al cliente.
+ * Registro histórico del desempeño de los clientes.
  */
 public class HistorialCliente {
 
     private int idHistorial;
-    private int clienteId;
-    private String descripcion;
+    private int idCliente;
+    private int idAlquiler;
+    private int valoracion;
     private LocalDate fechaRegistro;
-    private String tipoEvento;
 
     public HistorialCliente() {
     }
 
-    public HistorialCliente(int idHistorial, int clienteId, String descripcion,
-            LocalDate fechaRegistro, String tipoEvento) {
+    public HistorialCliente(int idHistorial, int idCliente, int idAlquiler,
+            int valoracion, LocalDate fechaRegistro) {
         this.idHistorial = idHistorial;
-        this.clienteId = clienteId;
-        this.descripcion = descripcion;
+        this.idCliente = idCliente;
+        this.idAlquiler = idAlquiler;
+        this.valoracion = valoracion;
         this.fechaRegistro = fechaRegistro;
-        this.tipoEvento = tipoEvento;
     }
 
     public int getIdHistorial() {
@@ -33,20 +33,28 @@ public class HistorialCliente {
         this.idHistorial = idHistorial;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public int getIdAlquiler() {
+        return idAlquiler;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setIdAlquiler(int idAlquiler) {
+        this.idAlquiler = idAlquiler;
+    }
+
+    public int getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(int valoracion) {
+        this.valoracion = valoracion;
     }
 
     public LocalDate getFechaRegistro() {
@@ -55,13 +63,5 @@ public class HistorialCliente {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public String getTipoEvento() {
-        return tipoEvento;
-    }
-
-    public void setTipoEvento(String tipoEvento) {
-        this.tipoEvento = tipoEvento;
     }
 }

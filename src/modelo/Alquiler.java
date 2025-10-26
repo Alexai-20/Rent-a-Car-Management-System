@@ -4,34 +4,45 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Representa el alquiler activo asociado a una reserva confirmada.
+ * Representa el ciclo de vida del alquiler de un vehículo.
  */
 public class Alquiler {
 
     private int idAlquiler;
-    private int reservaId;
-    private int trabajadorId;
-    private LocalDate fechaEntrega;
-    private LocalDate fechaDevolucion;
+    private int idReserva;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFinProgramada;
+    private LocalDate fechaFinReal;
+    private int kilometrajeInicial;
+    private int kilometrajeFinal;
+    private String estadoAlquiler;
     private BigDecimal montoTotal;
-    private double kilometrajeInicial;
-    private double kilometrajeFinal;
+    private int diasRetraso;
+    private BigDecimal cargoRetraso;
+    private int idTrabajadorEntrega;
+    private int idTrabajadorDevolucion;
 
     public Alquiler() {
     }
 
-    public Alquiler(int idAlquiler, int reservaId, int trabajadorId,
-            LocalDate fechaEntrega, LocalDate fechaDevolucion,
-            BigDecimal montoTotal, double kilometrajeInicial,
-            double kilometrajeFinal) {
+    public Alquiler(int idAlquiler, int idReserva, LocalDate fechaInicio,
+            LocalDate fechaFinProgramada, LocalDate fechaFinReal,
+            int kilometrajeInicial, int kilometrajeFinal, String estadoAlquiler,
+            BigDecimal montoTotal, int diasRetraso, BigDecimal cargoRetraso,
+            int idTrabajadorEntrega, int idTrabajadorDevolucion) {
         this.idAlquiler = idAlquiler;
-        this.reservaId = reservaId;
-        this.trabajadorId = trabajadorId;
-        this.fechaEntrega = fechaEntrega;
-        this.fechaDevolucion = fechaDevolucion;
-        this.montoTotal = montoTotal;
+        this.idReserva = idReserva;
+        this.fechaInicio = fechaInicio;
+        this.fechaFinProgramada = fechaFinProgramada;
+        this.fechaFinReal = fechaFinReal;
         this.kilometrajeInicial = kilometrajeInicial;
         this.kilometrajeFinal = kilometrajeFinal;
+        this.estadoAlquiler = estadoAlquiler;
+        this.montoTotal = montoTotal;
+        this.diasRetraso = diasRetraso;
+        this.cargoRetraso = cargoRetraso;
+        this.idTrabajadorEntrega = idTrabajadorEntrega;
+        this.idTrabajadorDevolucion = idTrabajadorDevolucion;
     }
 
     public int getIdAlquiler() {
@@ -42,36 +53,60 @@ public class Alquiler {
         this.idAlquiler = idAlquiler;
     }
 
-    public int getReservaId() {
-        return reservaId;
+    public int getIdReserva() {
+        return idReserva;
     }
 
-    public void setReservaId(int reservaId) {
-        this.reservaId = reservaId;
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
     }
 
-    public int getTrabajadorId() {
-        return trabajadorId;
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setTrabajadorId(int trabajadorId) {
-        this.trabajadorId = trabajadorId;
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public LocalDate getFechaEntrega() {
-        return fechaEntrega;
+    public LocalDate getFechaFinProgramada() {
+        return fechaFinProgramada;
     }
 
-    public void setFechaEntrega(LocalDate fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
+    public void setFechaFinProgramada(LocalDate fechaFinProgramada) {
+        this.fechaFinProgramada = fechaFinProgramada;
     }
 
-    public LocalDate getFechaDevolucion() {
-        return fechaDevolucion;
+    public LocalDate getFechaFinReal() {
+        return fechaFinReal;
     }
 
-    public void setFechaDevolucion(LocalDate fechaDevolucion) {
-        this.fechaDevolucion = fechaDevolucion;
+    public void setFechaFinReal(LocalDate fechaFinReal) {
+        this.fechaFinReal = fechaFinReal;
+    }
+
+    public int getKilometrajeInicial() {
+        return kilometrajeInicial;
+    }
+
+    public void setKilometrajeInicial(int kilometrajeInicial) {
+        this.kilometrajeInicial = kilometrajeInicial;
+    }
+
+    public int getKilometrajeFinal() {
+        return kilometrajeFinal;
+    }
+
+    public void setKilometrajeFinal(int kilometrajeFinal) {
+        this.kilometrajeFinal = kilometrajeFinal;
+    }
+
+    public String getEstadoAlquiler() {
+        return estadoAlquiler;
+    }
+
+    public void setEstadoAlquiler(String estadoAlquiler) {
+        this.estadoAlquiler = estadoAlquiler;
     }
 
     public BigDecimal getMontoTotal() {
@@ -82,19 +117,35 @@ public class Alquiler {
         this.montoTotal = montoTotal;
     }
 
-    public double getKilometrajeInicial() {
-        return kilometrajeInicial;
+    public int getDiasRetraso() {
+        return diasRetraso;
     }
 
-    public void setKilometrajeInicial(double kilometrajeInicial) {
-        this.kilometrajeInicial = kilometrajeInicial;
+    public void setDiasRetraso(int diasRetraso) {
+        this.diasRetraso = diasRetraso;
     }
 
-    public double getKilometrajeFinal() {
-        return kilometrajeFinal;
+    public BigDecimal getCargoRetraso() {
+        return cargoRetraso;
     }
 
-    public void setKilometrajeFinal(double kilometrajeFinal) {
-        this.kilometrajeFinal = kilometrajeFinal;
+    public void setCargoRetraso(BigDecimal cargoRetraso) {
+        this.cargoRetraso = cargoRetraso;
+    }
+
+    public int getIdTrabajadorEntrega() {
+        return idTrabajadorEntrega;
+    }
+
+    public void setIdTrabajadorEntrega(int idTrabajadorEntrega) {
+        this.idTrabajadorEntrega = idTrabajadorEntrega;
+    }
+
+    public int getIdTrabajadorDevolucion() {
+        return idTrabajadorDevolucion;
+    }
+
+    public void setIdTrabajadorDevolucion(int idTrabajadorDevolucion) {
+        this.idTrabajadorDevolucion = idTrabajadorDevolucion;
     }
 }
