@@ -1,14 +1,15 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  *
@@ -25,15 +24,14 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
  */
 public class Login {
 
-    private final JPanel MiniPanel, MainPanel;
+    private final JPanel MainPanel;
     private final JButton Close_Button, Login_Button;
-    private final JLabel PW_Label, UN_Label, Image_jLabel, info_Label;
+    private final JLabel PW_Label, UN_Label, info_Label, messageLabel;
     private final JTextField UN_TextField;
     private final JPasswordField Password_Field;
 
     public Login() {
 
-        MiniPanel = new JPanel();
         MainPanel = new JPanel();
 
         Close_Button = new JButton("Close");
@@ -42,50 +40,57 @@ public class Login {
         PW_Label = new JLabel("Password");
         UN_Label = new JLabel("Username");
         info_Label = new JLabel("Please Enter your Login Details");
-        Image_jLabel = new JLabel();
+        messageLabel = new JLabel(" ");
 
         UN_TextField = new JTextField();
         Password_Field = new JPasswordField();
 
-        MiniPanel.setBackground(Color.BLUE);
-        MiniPanel.setForeground(Color.WHITE);
-        MiniPanel.setLayout(new FlowLayout());
+        MainPanel.setLayout(new BorderLayout(0, 20));
+        MainPanel.setPreferredSize(new Dimension(420, 260));
+        MainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        MainPanel.setMinimumSize(new Dimension(1366, 730));
-        MainPanel.setLayout(new AbsoluteLayout());
+        info_Label.setFont(new Font("Consolas", Font.BOLD, 20));
+        info_Label.setHorizontalAlignment(JLabel.CENTER);
 
-        Login_Button.setPreferredSize(new Dimension(80, 20));
-        Close_Button.setPreferredSize(new Dimension(80, 20));
+        UN_Label.setFont(new Font("Consolas", Font.PLAIN, 16));
+        PW_Label.setFont(new Font("Consolas", Font.PLAIN, 16));
 
-        info_Label.setFont(new Font("Consolas", 1, 18)); // Consolas, Bold , 18pt
-        info_Label.setForeground(Color.WHITE);
+        UN_TextField.setPreferredSize(new Dimension(200, 28));
+        Password_Field.setPreferredSize(new Dimension(200, 28));
 
-        UN_Label.setFont(new Font("Consolas", 0, 18));
-        UN_Label.setForeground(Color.WHITE);
-        UN_Label.setPreferredSize(new Dimension(100, 20));
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        formPanel.add(UN_Label, gbc);
 
-        PW_Label.setFont(new Font("Consolas", 0, 18));
-        PW_Label.setForeground(Color.WHITE);
-        PW_Label.setPreferredSize(new Dimension(100, 20));
+        gbc.gridx = 1;
+        formPanel.add(UN_TextField, gbc);
 
-        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(PW_Label, gbc);
 
-        Image_jLabel.setMinimumSize(new Dimension(1366, 730));
-        Image_jLabel.setIcon(new ImageIcon("LoginImage.jpg"));
+        gbc.gridx = 1;
+        formPanel.add(Password_Field, gbc);
 
-        UN_TextField.setPreferredSize(new Dimension(200, 20));
-        Password_Field.setPreferredSize(new Dimension(200, 20));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(Login_Button);
+        buttonPanel.add(Close_Button);
 
-        MiniPanel.add(info_Label);
-        MiniPanel.add(UN_Label);
-        MiniPanel.add(UN_TextField);
-        MiniPanel.add(PW_Label);
-        MiniPanel.add(Password_Field);
-        MiniPanel.add(Login_Button);
-        MiniPanel.add(Close_Button);
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setFont(new Font("Consolas", Font.PLAIN, 14));
+        messageLabel.setForeground(Color.RED);
 
-        MainPanel.add(MiniPanel, new AbsoluteConstraints(50, 150, 350, 125));
-        MainPanel.add(Image_jLabel, new AbsoluteConstraints(0, 0));
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(buttonPanel, BorderLayout.CENTER);
+        bottomPanel.add(messageLabel, BorderLayout.SOUTH);
+
+        MainPanel.add(info_Label, BorderLayout.NORTH);
+        MainPanel.add(formPanel, BorderLayout.CENTER);
+        MainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         Login_Button.addActionListener(new LoginActionListener());
         Close_Button.addActionListener(new LoginActionListener());
@@ -116,15 +121,16 @@ public class Login {
                             && String.valueOf(Password_Field.getPassword()).equals("123")) {
                         UN_TextField.setText("");
                         Password_Field.setText("");
+                        messageLabel.setText(" ");
                         Runner.getFrame().dispose();
-                        Parent_JFrame frame = new Parent_JFrame();
+                        new Parent_JFrame();
                         MainMenu menu = new MainMenu();
                         JFrame mainFrame = Parent_JFrame.getMainFrame();
 //                        JPanel mainPanel = menu.getMainPanel();
                         mainFrame.add(menu.getMainPanel());
                         mainFrame.setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Invalid UserName/Password", "Error", JOptionPane.ERROR_MESSAGE);
+                        messageLabel.setText("Invalid username or password. Try again.");
                     }
                     break;
                 }
