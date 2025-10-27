@@ -1,9 +1,6 @@
 package GUI;
 
-import java.awt.Dimension;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  *
@@ -11,9 +8,7 @@ import javax.swing.JLabel;
  */
 public class Runner {
 
-    private static final JFrame FRAME = new JFrame();
-    private final ImageIcon icon;
-    private final JLabel L1;
+    private static final JFrame FRAME = new JFrame("Rent-a-Car Management System");
 
     public static JFrame getFrame() {
         return FRAME;
@@ -21,27 +16,16 @@ public class Runner {
 
     public Runner() {
         
-        icon = new ImageIcon("WelcomeImage.jpg");
-        L1 = new JLabel(icon);
-        FRAME.setUndecorated(true);
-        FRAME.setSize(new Dimension(1000, 534));
-        FRAME.setLocationRelativeTo(null);
-        FRAME.add(L1);
+        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
-        Runner runner = new Runner();
+        new Runner();
+        Login login = new Login();
+        Runner.FRAME.getContentPane().removeAll();
+        Runner.FRAME.add(login.getMainPanel());
+        Runner.FRAME.pack();
+        Runner.FRAME.setLocationRelativeTo(null);
         Runner.FRAME.setVisible(true);
-
-        try {
-            Thread.sleep(1000);
-            Login LoginObject = new Login();
-            Runner.FRAME.getContentPane().removeAll();
-            Runner.FRAME.add(LoginObject.getMainPanel());
-            Runner.FRAME.getContentPane().revalidate();
-
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
     }
 }
